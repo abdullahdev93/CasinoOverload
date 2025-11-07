@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "110081454461",
+    "project_id": "casino-overload",
+    "storage_bucket": "casino-overload.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:110081454461:android:fdaccd8395b014b8399c14",
+        "android_client_info": {
+          "package_name": "com.pss.CasinoOverloadUnity"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUlILINPXHZ5S15QRHOMOfAdHI5U3sQP8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
