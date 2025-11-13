@@ -19,18 +19,22 @@ public class MainMenuUIHandler : MonoBehaviour
     [SerializeField] private Button WatchVideoAdButton;
     [SerializeField] private Button ProfileButton;
     [SerializeField] private Button ChangeAvatarButton;
+    [SerializeField] private Button ShopButton;
+    [SerializeField] private Button SettingsButton;          // NEW
 
     [Header("Popups")]
     [SerializeField] private GameObject UsernamePopup;
     [SerializeField] private ProfilePopup ProfilePopup;
     [SerializeField] private AvatarSelectionPopup AvatarSelectionPopup;
+    [SerializeField] private ShopPopup ShopPopup;
+    [SerializeField] private SettingsPopup SettingsPopup;    // NEW
 
     [Header("Avatar Objects (Single Source of Truth)")]
     [Tooltip("3D avatar characters in the scene. Only the selected one will be active.")]
     [SerializeField] private GameObject[] avatarObjects;
 
     [Header("Avatar Parent")]
-    [Tooltip("Parent GameObject of all 3D avatars. Will be disabled while username popup is open.")]
+    [Tooltip("Parent GameObject of all 3D avatars. Hidden during username, shop, settings screens.")]
     [SerializeField] private GameObject avatarParent;
 
     private void Awake()
@@ -54,6 +58,18 @@ public class MainMenuUIHandler : MonoBehaviour
         {
             ChangeAvatarButton.onClick.RemoveAllListeners();
             ChangeAvatarButton.onClick.AddListener(OpenAvatarPopup);
+        }
+
+        if (ShopButton != null)
+        {
+            ShopButton.onClick.RemoveAllListeners();
+            ShopButton.onClick.AddListener(OpenShopPopup);
+        }
+
+        if (SettingsButton != null)
+        {
+            SettingsButton.onClick.RemoveAllListeners();
+            SettingsButton.onClick.AddListener(OpenSettingsPopup);
         }
     }
 
@@ -114,14 +130,11 @@ public class MainMenuUIHandler : MonoBehaviour
             PlayerProfile.Instance.OnAvatarIndexChanged -= UpdateAvatarDisplay;
         }
 
-        if (WatchVideoAdButton != null)
-            WatchVideoAdButton.onClick.RemoveListener(OnWatchAdClicked);
-
-        if (ProfileButton != null)
-            ProfileButton.onClick.RemoveListener(OpenProfilePopup);
-
-        if (ChangeAvatarButton != null)
-            ChangeAvatarButton.onClick.RemoveListener(OpenAvatarPopup);
+        if (WatchVideoAdButton != null) WatchVideoAdButton.onClick.RemoveAllListeners();
+        if (ProfileButton != null) ProfileButton.onClick.RemoveAllListeners();
+        if (ChangeAvatarButton != null) ChangeAvatarButton.onClick.RemoveAllListeners();
+        if (ShopButton != null) ShopButton.onClick.RemoveAllListeners();
+        if (SettingsButton != null) SettingsButton.onClick.RemoveAllListeners();
     }
 
     // -------- Visibility helpers --------
@@ -169,15 +182,12 @@ public class MainMenuUIHandler : MonoBehaviour
     public void OpenProfilePopup()
     {
         if (ProfilePopup != null)
-        {
-            SetAvatarParentVisible(false);
             ProfilePopup.gameObject.SetActive(true);
-        }
     }
 
     public void OpenUsernamePopup()
     {
-        // When username popup opens, hide avatar parent so 3D avatar doesn't overlap
+        // Hide avatars while username popup is open
         SetAvatarParentVisible(false);
 
         if (UsernamePopup != null)
@@ -192,6 +202,24 @@ public class MainMenuUIHandler : MonoBehaviour
 
         if (AvatarSelectionPopup != null)
             AvatarSelectionPopup.gameObject.SetActive(true);
+    }
+
+    public void OpenShopPopup()
+    {
+        // When shop opens, hide avatars
+        SetAvatarParentVisible(false);
+
+        if (ShopPopup != null)
+            ShopPopup.gameObject.SetActive(true);
+    }
+
+    public void OpenSettingsPopup()
+    {
+        // When settings opens, hide avatars
+        SetAvatarParentVisible(false);
+
+        if (SettingsPopup != null)
+            SettingsPopup.gameObject.SetActive(true);
     }
 
     // -------- UI updates --------
